@@ -8,8 +8,10 @@ import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -30,6 +32,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Principal extends AppCompatActivity {
+
+    private LinearLayout div_recycler_autos,div_infromacion_auto;
     private ExecutorService executorService;
     private JSONArray json_datos_autos;
     private Context context;
@@ -37,6 +41,7 @@ public class Principal extends AppCompatActivity {
     private RecyclerView recycler_autos;
     private AdadpterListaAutos adadpterListaAutos;
     private ArrayList<ListaAutos> listaAutosArrayList;
+    private String vista_actual_str;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +55,9 @@ public class Principal extends AppCompatActivity {
         recycler_autos.setLayoutManager(new LinearLayoutManager(Principal.this, LinearLayoutManager.VERTICAL, false));
         listaAutosArrayList.clear();
         executorService= Executors.newSingleThreadExecutor();
+        div_recycler_autos=findViewById(R.id.div_recycler_autos);
+        div_infromacion_auto=findViewById(R.id.div_infromacion_auto);
+
         SERVIDOR_CONTROLADOR = new Servidor().local;
         executorService.execute(new Runnable() {
             @Override
@@ -97,6 +105,8 @@ public class Principal extends AppCompatActivity {
                                 }
                                 adadpterListaAutos=new AdadpterListaAutos(listaAutosArrayList);
                                 recycler_autos.setAdapter(adadpterListaAutos);
+                                vista_actual_str="VISTA_RPINCPILA";
+
                             }
                             catch (JSONException e) {
                                 Log.e("errorRespuesta", String.valueOf(e));
@@ -117,6 +127,21 @@ public class Principal extends AppCompatActivity {
             }
         };
         requestQueue.add(request);
+    }
+    public void masInformacion(String id,String marca,String modelo,String precio,String link,String foto_1,String foto_2,String foto_3){
+        div_recycler_autos.setVisibility(View.GONE);
+        div_infromacion_auto.setVisibility(View.VISIBLE);
+        vista_actual_str="informacion_autos";
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (vista_actual_str.equals("informacion_autos")){
+            div_recycler_autos.setVisibility(View.VISIBLE);
+            div_infromacion_auto.setVisibility(View.GONE);
+        }
+
+
     }
 }
 

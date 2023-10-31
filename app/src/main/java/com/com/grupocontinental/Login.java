@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,9 +40,9 @@ public class Login extends AppCompatActivity {
 
     private ExecutorService executorService;
 
-
+    private LinearLayout div_login,div_principal;
     private EditText correo,contrasena;
-    private TextView ingresar,recuperarContra,mensaje;
+    private TextView ingresar,mensaje,ir_catalogo,nombre_usuario;
     private String valCorreo,valContra,correo_final;
     private static String SERVIDOR_CONTROLADOR;
     private int check=0;
@@ -65,14 +66,19 @@ public class Login extends AppCompatActivity {
         executorService= Executors.newSingleThreadExecutor();
         SERVIDOR_CONTROLADOR = new Servidor().local;
         datosUsuario = getSharedPreferences("Usuario",this.MODE_PRIVATE);
+        strUsuario=datosUsuario.getString("nombre_usuario","no");
+
         editor=datosUsuario.edit();
 
 
         correo=findViewById(R.id.correo);
         contrasena =findViewById(R.id.contrasena);
         ingresar= findViewById(R.id.ingresar);
-        recuperarContra =findViewById(R.id.recuperarContra);
         mensaje =findViewById(R.id.mensaje);
+        div_login=findViewById(R.id.div_login);
+        div_principal=findViewById(R.id.div_principal);
+        ir_catalogo=findViewById(R.id.ir_catalogo);
+        nombre_usuario=findViewById(R.id.nombre_usuario);
         context=this;
         checkSesion();
 
@@ -102,7 +108,6 @@ public class Login extends AppCompatActivity {
                     if(!valContra.trim().equals("")){
                         if(correo_exitoso==true){
 
-                            recuperarContra.setVisibility(View.GONE);
                             ingresar.setVisibility(View.GONE);
                             mensaje.setText("Iniciando sesión ...");
                             mensaje.setVisibility(View.VISIBLE);
@@ -148,6 +153,13 @@ public class Login extends AppCompatActivity {
                 }
             }
         });
+        ir_catalogo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Login.this, com.com.grupocontinental.Principal.class);
+                startActivity(intent);
+            }
+        });
     }
 
 
@@ -179,26 +191,23 @@ public class Login extends AppCompatActivity {
                                     String strPassword_usuario=jsonObject.getString("password_usuario");
                                     String strActivo=jsonObject.getString("activo");
 
-
+                                    nombre_usuario.setText("Bienvenido "+strNombre_usuario);
 
                                     Log.e("idsesion",strId_sesion);
 
 
                                     editor.putString("id",strId);
-                                    editor.putString("nombres",strNombre_usuario);
-                                    editor.putString("apellido_1",strCorreo_usuario);
-                                    editor.putString("apellido_2",strPassword_usuario);
+                                    editor.putString("nombre_usuario",strNombre_usuario);
+                                    editor.putString("correo_usuario",strCorreo_usuario);
                                     editor.putString("estatus",strActivo);
-
                                     editor.putString("id_sesion",strId_sesion);
 
                                     editor.apply();
 
                                     Log.e("idsesion",strId_sesion);
+                                    div_login.setVisibility(View.GONE);
+                                    div_principal.setVisibility(View.VISIBLE);
 
-
-                                    Intent intent = new Intent(Login.this, com.com.grupocontinental.Principal.class);
-                                    startActivity(intent);
 
 
 
@@ -238,8 +247,10 @@ public class Login extends AppCompatActivity {
         {
 
             Log.e("idsesion_main",strInicio);
-            Intent agenda= new Intent(Login.this, com.com.grupocontinental.Principal.class);
-            startActivity(agenda);
+            div_login.setVisibility(View.GONE);
+            div_principal.setVisibility(View.VISIBLE);
+            nombre_usuario.setText("Bienvenido "+strUsuario);
+
         }
     }
 }

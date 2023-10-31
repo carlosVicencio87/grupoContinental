@@ -7,116 +7,171 @@
     android:orientation="vertical"
     android:background="@color/gris"
     tools:context=".Login">
-
     <ImageView
-        android:layout_width="220dp"
-        android:layout_height="170dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="25dp"
-        android:background="@color/black"/>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="250dp"
-        android:layout_height="52dp"
-        android:layout_gravity="center"
-        android:padding="7dp"
-        android:background="@drawable/campo"
-        android:elevation="2.5dp"
-
-        android:layout_marginTop="34dp">
-        <EditText
-            android:layout_width="216dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/correo"
-            android:hint="correo electronico"
-            android:textSize="16dp"
-            android:textColorHint="@color/azul"
-            android:inputType="text"
-            android:layout_marginHorizontal="16dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintRight_toLeftOf="@id/icoUser"
-            app:layout_constraintBottom_toBottomOf="parent"/>
-        <ImageView
-            android:id="@+id/icoUser"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            android:src="@drawable/user"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="250dp"
-        android:layout_height="52dp"
-        android:layout_gravity="center"
-        android:padding="7dp"
-        android:background="@drawable/campo"
-        android:elevation="2.5dp"
-
-        android:layout_marginTop="35dp">
-        <EditText
-            android:layout_width="216dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/contrasena"
-            android:hint="PIN"
-            android:textSize="16dp"
-            android:textColorHint="@color/azul"
-            android:inputType="textPassword"
-            android:layout_marginHorizontal="16dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintRight_toLeftOf="@id/icoPass"
-            app:layout_constraintBottom_toBottomOf="parent"/>
-        <ImageView
-            android:id="@+id/icoPass"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:background="@drawable/llave"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <TextView
+        android:layout_marginTop="27dp"
         android:layout_width="wrap_content"
-        android:id="@+id/mensaje"
-        android:layout_height="70dp"
-        android:text="Iniciando sesión ..."
-        android:textSize="16dp"
-        android:layout_marginTop="16dp"
-        android:textColor="@color/black"
-        android:gravity="center"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:visibility="gone"/>
+        android:background="@drawable/marcas"/>
+    <ImageView
+        android:layout_marginTop="34dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/logo"
+        android:layout_marginBottom="4dp"/>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/imagen4">
+        <LinearLayout
+            android:visibility="visible"
+            android:id="@+id/div_login"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/div_usuario"
+                android:layout_width="250dp"
+                android:layout_height="52dp"
+                android:layout_gravity="center"
+                android:padding="7dp"
+                android:elevation="2.5dp"
+                android:layout_marginTop="43dp">
+                <EditText
+                    android:id="@+id/correo"
+                    android:layout_width="216dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:hint="correo electronico"
+                    android:inputType="text"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    android:textSize="16dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toLeftOf="@id/icoUser"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+                <ImageView
+                    android:id="@+id/icoUser"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:src="@drawable/user"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <TextView
-        android:elevation="2.5dp"
-        android:layout_width="120dp"
-        android:id="@+id/ingresar"
-        android:layout_height="60dp"
-        android:text="Ingresar"
-        android:textSize="25dp"
-        android:layout_marginTop="16dp"
-        android:textColor="@color/azul"
-        android:gravity="center"
-        android:layout_gravity="center"
-        android:background="@drawable/campo"
-        android:layout_marginBottom="10dp" />
-    <TextView
-        android:visibility="gone"
-        android:layout_width="200dp"
-        android:id="@+id/recuperarContra"
-        android:layout_height="70dp"
-        android:text="Olvide mi contraseña"
-        android:textSize="20dp"
-        android:textColor="@color/azul"
-        android:gravity="center"
-        android:layout_marginBottom="10dp"
-        android:layout_gravity="center"
-        android:background="@drawable/campo"
-        android:layout_marginTop="10dp"
-        />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/div_contrasena"
+                android:layout_width="250dp"
+                android:layout_height="52dp"
+                android:layout_gravity="center"
+                android:padding="7dp"
+                android:background="@drawable/campo"
+                android:layout_marginTop="16dp">
+                <EditText
+                    android:layout_width="216dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/contrasena"
+                    android:hint="Passwrod"
+                    android:textSize="16dp"
+                    android:textColorHint="@color/white"
+                    android:inputType="textPassword"
+                    android:layout_marginHorizontal="16dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintRight_toLeftOf="@id/icoPass"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+                <ImageView
+                    android:id="@+id/icoPass"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:background="@drawable/llave"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:id="@+id/mensaje"
+                android:layout_height="70dp"
+                android:text="Iniciando sesión ..."
+                android:textSize="16dp"
+                android:layout_marginTop="16dp"
+                android:textColor="@color/black"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:visibility="gone" />
+
+            <TextView
+                android:elevation="2.5dp"
+                android:layout_width="120dp"
+                android:id="@+id/ingresar"
+                android:layout_height="60dp"
+                android:text="Ingresar"
+                android:textSize="25dp"
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:background="@drawable/campo"
+                android:layout_marginTop="34dp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/div_principal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent">
+            <TextView
+                android:id="@+id/nombre_usuario"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16dp"
+                android:textColor="@color/white"
+                android:text="Bienvenido"
+                android:gravity="center"
+                android:layout_gravity="right"
+                android:layout_margin="16dp"/>
+            <TextView
+                android:layout_marginTop="34dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="25dp"
+                android:textColor="@color/white"
+                android:text="CÁTALOGO DE AUTOS"
+                android:gravity="center"
+                android:layout_gravity="center" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="160dp"
+                android:textSize="21dp"
+                android:textColor="@color/white"
+                android:text="Seminuevos"
+                android:gravity="top"
+                android:layout_gravity="center"/>
+            <TextView
+                android:id="@+id/ir_catalogo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="21dp"
+                android:textColor="@color/white"
+                android:text="Ir catalgoo"
+                android:gravity="center"
+                android:layout_gravity="center"/>
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 </LinearLayout>

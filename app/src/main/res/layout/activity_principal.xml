@@ -5,9 +5,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Principal">
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_autos"
+    <LinearLayout
+        android:id="@+id/div_recycler_autos"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_autos"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/div_infromacion_auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

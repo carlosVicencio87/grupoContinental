@@ -53,7 +53,21 @@ public class AdadpterListaAutos extends RecyclerView.Adapter<AdadpterListaAutos.
         holder.modelo_tv.setText(modelo);
         holder.precio_tv.setText("$"+String.valueOf(precio));
         Picasso.get().load(url_server+foto_1).into(holder.foto_1_tv);
-
+        holder.mas_Informacion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int posiTion2 = holder.getAdapterPosition();
+                id = autosRecycler.get(posiTion2).getId();
+                marca = autosRecycler.get(posiTion2).getMarca();
+                modelo = autosRecycler.get(posiTion2).getModelo();
+                precio = autosRecycler.get(posiTion2).getPrecio();
+                link = autosRecycler.get(posiTion2).getLink();
+                foto_1 = autosRecycler.get(posiTion2).getFoto_1();
+                foto_2 = autosRecycler.get(posiTion2).getFoto_2();
+                foto_3 = autosRecycler.get(posiTion2).getFoto_3();
+                ((Principal) context).masInformacion(id,marca,modelo,precio,link,foto_1,foto_2,foto_3);
+            }
+        });
     }
 
     @Override
@@ -63,7 +77,7 @@ public class AdadpterListaAutos extends RecyclerView.Adapter<AdadpterListaAutos.
 
     public class ViewHolderRecycler extends RecyclerView.ViewHolder {
 
-        TextView marca_tv, modelo_tv, precio_tv;
+        TextView marca_tv, modelo_tv, precio_tv,mas_Informacion;
         LinearLayout caja_info_deudor;
         ImageView foto_1_tv;
 
@@ -74,6 +88,7 @@ public class AdadpterListaAutos extends RecyclerView.Adapter<AdadpterListaAutos.
             modelo_tv=itemView.findViewById(R.id.modelo);
             precio_tv=itemView.findViewById(R.id.precio);
             foto_1_tv=itemView.findViewById(R.id.foto_1_tv);
+            mas_Informacion=itemView.findViewById(R.id.mas_Informacion);
         }
     }
 }
