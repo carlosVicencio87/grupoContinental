@@ -7,25 +7,41 @@
     android:orientation="vertical"
     android:background="@color/gris"
     tools:context=".Login">
-    <ImageView
-        android:layout_marginTop="27dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:background="@drawable/marcas"/>
-    <ImageView
-        android:layout_marginTop="34dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:background="@drawable/logo"
-        android:layout_marginBottom="4dp"/>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/imagen4">
+        android:orientation="vertical">
         <LinearLayout
-            android:visibility="visible"
+            android:visibility="gone"
+            android:id="@+id/div_bienvenida"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@drawable/fotofondo2"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:scaleType="centerInside"
+            android:padding="25dp">
+            <ImageView
+                android:layout_marginTop="11dp"
+                android:layout_width="match_parent"
+                android:layout_height="98dp"
+                android:background="@drawable/logoconti"/>
+
+        </LinearLayout>
+        <TextView
+            android:id="@+id/iniciar_sesion"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="124dp"
+            android:layout_height="40dp"
+            android:background="@drawable/botonpantalla1"/>
+        <LinearLayout
+            android:visibility="gone"
             android:id="@+id/div_login"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -34,15 +50,27 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toLeftOf="parent">
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:background="@drawable/fotofondo2"
+                android:scaleType="centerCrop"/>
+            <LinearLayout
                 android:id="@+id/div_usuario"
-                android:layout_width="250dp"
+                android:layout_width="match_parent"
                 android:layout_height="52dp"
-                android:layout_gravity="center"
+                android:gravity="center"
                 android:padding="7dp"
                 android:elevation="2.5dp"
                 android:layout_marginTop="43dp">
+                <ImageView
+                    android:id="@+id/icon_email"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/user"/>
                 <EditText
+                    android:layout_gravity="center"
                     android:id="@+id/correo"
                     android:layout_width="216dp"
                     android:layout_height="wrap_content"
@@ -50,54 +78,34 @@
                     android:hint="correo electronico"
                     android:inputType="text"
                     android:textColor="@color/white"
-                    android:textColorHint="@color/white"
-                    android:textSize="16dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toLeftOf="@id/icoUser"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-                <ImageView
-                    android:id="@+id/icoUser"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    android:src="@drawable/user"/>
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    android:textColorHint="@color/black"
+                    android:textSize="16dp" />
+            </LinearLayout>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <LinearLayout
                 android:id="@+id/div_contrasena"
-                android:layout_width="250dp"
+                android:layout_width="match_parent"
                 android:layout_height="52dp"
                 android:layout_gravity="center"
                 android:padding="7dp"
-                android:background="@drawable/campo"
-                android:layout_marginTop="16dp">
+                android:layout_marginTop="16dp"
+                android:gravity="center">
+                <ImageView
+                    android:id="@+id/icoPass"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:background="@drawable/icon_email" />
                 <EditText
                     android:layout_width="216dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/contrasena"
                     android:hint="Passwrod"
                     android:textSize="16dp"
-                    android:textColorHint="@color/white"
+                    android:textColorHint="@color/black"
                     android:inputType="textPassword"
-                    android:layout_marginHorizontal="16dp"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintRight_toLeftOf="@id/icoPass"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
-                <ImageView
-                    android:id="@+id/icoPass"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:background="@drawable/llave"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    android:layout_marginHorizontal="16dp"/>
+
+            </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -113,19 +121,20 @@
 
             <TextView
                 android:elevation="2.5dp"
-                android:layout_width="120dp"
+                android:layout_width="105dp"
                 android:id="@+id/ingresar"
-                android:layout_height="60dp"
-                android:text="Ingresar"
+                android:layout_height="43dp"
+
                 android:textSize="25dp"
                 android:textColor="@color/white"
                 android:gravity="center"
                 android:layout_gravity="center"
-                android:background="@drawable/campo"
+                android:background="@drawable/botonacceso"
                 android:layout_marginTop="34dp"/>
         </LinearLayout>
         <LinearLayout
-            android:visibility="gone"
+            android:background="@color/white"
+            android:visibility="visible"
             android:id="@+id/div_principal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -134,42 +143,68 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toLeftOf="parent">
-            <TextView
-                android:id="@+id/nombre_usuario"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="16dp"
-                android:textColor="@color/white"
-                android:text="Bienvenido"
-                android:gravity="center"
-                android:layout_gravity="right"
-                android:layout_margin="16dp"/>
-            <TextView
-                android:layout_marginTop="34dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="25dp"
-                android:textColor="@color/white"
-                android:text="CÁTALOGO DE AUTOS"
-                android:gravity="center"
-                android:layout_gravity="center" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="160dp"
-                android:textSize="21dp"
-                android:textColor="@color/white"
-                android:text="Seminuevos"
-                android:gravity="top"
-                android:layout_gravity="center"/>
-            <TextView
-                android:id="@+id/ir_catalogo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="21dp"
-                android:textColor="@color/white"
-                android:text="Ir catalgoo"
-                android:gravity="center"
-                android:layout_gravity="center"/>
+                android:orientation="vertical"
+                android:padding="11dp"
+                >
+                <ImageView
+                    android:layout_marginTop="14dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/marcas"/>
+                <ImageView
+                    android:layout_marginTop="14dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/logo"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginTop="25dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/imagen4"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/nombre_usuario"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16dp"
+                    android:textColor="@color/white"
+                    android:text="Bienvenido"
+                    android:gravity="center"
+                    android:layout_gravity="right"
+                    android:layout_margin="16dp"/>
+                <TextView
+                    android:layout_marginTop="34dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="25dp"
+                    android:textColor="@color/white"
+                    android:text="CÁTALOGO DE AUTOS"
+                    android:gravity="center"
+                    android:layout_gravity="center" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="160dp"
+                    android:textSize="21dp"
+                    android:textColor="@color/white"
+                    android:text="Seminuevos"
+                    android:gravity="top"
+                    android:layout_gravity="center"/>
+                <TextView
+                    android:id="@+id/ir_catalogo"
+                    android:layout_width="115dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="21dp"
+                    android:textColor="@color/white"
+                    android:gravity="center"
+                    android:background="@drawable/fondo1"
+                    android:layout_gravity="center"/>
+            </LinearLayout>
+
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 

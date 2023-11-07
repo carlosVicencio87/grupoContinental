@@ -40,9 +40,9 @@ public class Login extends AppCompatActivity {
 
     private ExecutorService executorService;
 
-    private LinearLayout div_login,div_principal;
+    private LinearLayout div_login,div_principal,div_bienvenida;
     private EditText correo,contrasena;
-    private TextView ingresar,mensaje,ir_catalogo,nombre_usuario;
+    private TextView ingresar,mensaje,ir_catalogo,nombre_usuario,iniciar_sesion;
     private String valCorreo,valContra,correo_final;
     private static String SERVIDOR_CONTROLADOR;
     private int check=0;
@@ -79,9 +79,20 @@ public class Login extends AppCompatActivity {
         div_principal=findViewById(R.id.div_principal);
         ir_catalogo=findViewById(R.id.ir_catalogo);
         nombre_usuario=findViewById(R.id.nombre_usuario);
+        iniciar_sesion=findViewById(R.id.iniciar_sesion);
+        div_bienvenida=findViewById(R.id.div_bienvenida);
         context=this;
         checkSesion();
 
+
+        iniciar_sesion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                div_bienvenida.setVisibility(View.GONE);
+                div_login.setVisibility(View.VISIBLE);
+                iniciar_sesion.setVisibility(View.GONE);
+            }
+        });
         ingresar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -248,6 +259,7 @@ public class Login extends AppCompatActivity {
 
             Log.e("idsesion_main",strInicio);
             div_login.setVisibility(View.GONE);
+            div_bienvenida.setVisibility(View.GONE);
             div_principal.setVisibility(View.VISIBLE);
             nombre_usuario.setText("Bienvenido "+strUsuario);
 
