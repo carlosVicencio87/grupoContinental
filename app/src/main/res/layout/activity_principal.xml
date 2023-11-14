@@ -10,6 +10,63 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="11dp"
+            android:layout_gravity="center">
+            <EditText
+                android:id="@+id/palabra_buscada"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColorHint="@color/black"
+                android:hint="Buscar"
+                android:textColor="@color/black"
+                android:textSize="20dp"
+
+                android:layout_gravity="center"/>
+            <ImageView
+                android:id="@+id/buscar_palabra"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:src="@drawable/lupa"/>
+            <ImageView
+                android:visibility="gone"
+                android:id="@+id/borrar_palabra"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_gravity="center"
+                android:src="@drawable/tache"/>
+            <LinearLayout
+                android:id="@+id/ver_filtros"
+                android:layout_width="115dp"
+                android:layout_height="43dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="11dp"
+                android:elevation="2.5dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/filtros_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="16dp"
+                    android:text="Filtros"
+                    android:textColor="@color/black"
+                    android:textSize="16dp"/>
+                <ImageView
+                    android:layout_width="11dp"
+                    android:layout_height="11dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="7dp"
+                    android:layout_marginRight="16dp"
+                    android:src="@drawable/flecha_abajo"/>
+            </LinearLayout>
+        </LinearLayout>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_autos"
             android:layout_width="match_parent"

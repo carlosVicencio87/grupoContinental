@@ -13,12 +13,12 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
         <LinearLayout
-            android:visibility="gone"
+            android:visibility="visible"
             android:id="@+id/div_bienvenida"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:background="@drawable/fotofondo2"
+            android:background="@drawable/jeep"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -28,7 +28,7 @@
             <ImageView
                 android:layout_marginTop="11dp"
                 android:layout_width="match_parent"
-                android:layout_height="98dp"
+                android:layout_height="89dp"
                 android:background="@drawable/logoconti"/>
 
         </LinearLayout>
@@ -36,10 +36,11 @@
             android:id="@+id/iniciar_sesion"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             android:layout_width="124dp"
             android:layout_height="40dp"
-            android:background="@drawable/botonpantalla1"/>
+            android:background="@drawable/botonpantalla1"
+            android:layout_marginBottom="25dp"/>
         <LinearLayout
             android:visibility="gone"
             android:id="@+id/div_login"
@@ -49,12 +50,13 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent">
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:padding="11dp">
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:background="@drawable/fotofondo2"
-                android:scaleType="centerCrop"/>
+                android:layout_height="320dp"
+                android:background="@drawable/jeep2"
+                android:scaleType="fitCenter"/>
             <LinearLayout
                 android:id="@+id/div_usuario"
                 android:layout_width="match_parent"
@@ -134,7 +136,7 @@
         </LinearLayout>
         <LinearLayout
             android:background="@color/white"
-            android:visibility="visible"
+            android:visibility="gone"
             android:id="@+id/div_principal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -147,18 +149,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="11dp"
-                >
+                android:padding="11dp">
                 <ImageView
                     android:layout_marginTop="14dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/marcas"/>
-                <ImageView
-                    android:layout_marginTop="14dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/logo"/>
+                    android:scaleType="centerInside"
+                    android:background="@drawable/logo2"/>
             </LinearLayout>
 
             <LinearLayout

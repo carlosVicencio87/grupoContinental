@@ -15,32 +15,48 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_weight="1"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
         <TextView
             android:id="@+id/marca"
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_height="43dp"
             android:hint="Marca"
             android:gravity="center"
             android:textColor="@color/black"
-            android:textSize="25dp"/>
+            android:textSize="16dp"/>
         <TextView
             android:id="@+id/modelo"
             android:hint="Modelo"
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_height="43dp"
             android:gravity="center"
             android:textColor="@color/black"
-            android:textSize="25dp"/>
+            android:textSize="16dp"/>
+        <TextView
+            android:id="@+id/ano_tv"
+            android:hint="Ano"
+            android:layout_width="match_parent"
+            android:layout_height="43dp"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="16dp"/>
+        <TextView
+            android:id="@+id/kms_tv"
+            android:hint="Kilometraje"
+            android:layout_width="match_parent"
+            android:layout_height="43dp"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="16dp"/>
         <TextView
             android:id="@+id/precio"
             android:hint="Precio"
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_height="43dp"
             android:gravity="center"
             android:textColor="@color/black"
-            android:textSize="25dp"/>
+            android:textSize="16dp"/>
         <TextView
             android:id="@+id/mas_Informacion"
             android:hint="mas&#10;informacion"
@@ -51,5 +67,4 @@
             android:textColor="@color/black"
             android:textSize="16dp"/>
     </LinearLayout>
-
 </LinearLayout>

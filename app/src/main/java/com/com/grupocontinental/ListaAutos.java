@@ -3,17 +3,21 @@ package com.com.grupocontinental;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class ListaAutos extends AppCompatActivity {
-    private String id,marca,modelo,precio,link,foto_1,foto_2,foto_3;
+    private String id,marca,modelo,ano,kms,precio,link,foto_1,foto_2,foto_3,comentarios;
 
-    public ListaAutos(String id, String marca, String modelo, String precio, String link, String foto_1, String foto_2, String foto_3) {
+    public ListaAutos(String id, String marca, String modelo,String ano,String kms,String precio, String link, String foto_1, String foto_2, String foto_3,String comentarios) {
         this.id = id;
         this.marca = marca;
         this.modelo = modelo;
+        this.ano = ano;
+        this.kms = kms;
         this.precio = precio;
         this.link = link;
         this.foto_1 = foto_1;
         this.foto_2 = foto_2;
         this.foto_3 = foto_3;
+        this.comentarios = comentarios;
+
     }
 
     public String getId() {
@@ -78,5 +82,29 @@ public class ListaAutos extends AppCompatActivity {
 
     public void setFoto_3(String foto_3) {
         this.foto_3 = foto_3;
+    }
+
+    public String getAno() {
+        return ano;
+    }
+
+    public void setAno(String ano) {
+        this.ano = ano;
+    }
+
+    public String getKms() {
+        return kms;
+    }
+
+    public void setKms(String kms) {
+        this.kms = kms;
+    }
+
+    public String getComentarios() {
+        return comentarios;
+    }
+
+    public void setComentarios(String comentarios) {
+        this.comentarios = comentarios;
     }
 }

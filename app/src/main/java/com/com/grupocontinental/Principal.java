@@ -11,7 +11,10 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -40,8 +43,10 @@ public class Principal extends AppCompatActivity {
     private static String SERVIDOR_CONTROLADOR;
     private RecyclerView recycler_autos;
     private AdadpterListaAutos adadpterListaAutos;
-    private ArrayList<ListaAutos> listaAutosArrayList;
-    private String vista_actual_str;
+    private ArrayList<ListaAutos> listaAutosArrayList,listaAutosFiltrados;
+    private String vista_actual_str,palabra_buscada_str;
+    private ImageView buscar_palabra,borrar_palabra;
+    private EditText palabra_buscada;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +55,7 @@ public class Principal extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_principal);
+        listaAutosFiltrados = new ArrayList<>();
         recycler_autos=findViewById(R.id.recycler_autos);
         listaAutosArrayList=new ArrayList<>();
         recycler_autos.setLayoutManager(new LinearLayoutManager(Principal.this, LinearLayoutManager.VERTICAL, false));
@@ -57,7 +63,9 @@ public class Principal extends AppCompatActivity {
         executorService= Executors.newSingleThreadExecutor();
         div_recycler_autos=findViewById(R.id.div_recycler_autos);
         div_infromacion_auto=findViewById(R.id.div_infromacion_auto);
-
+        palabra_buscada=findViewById(R.id.palabra_buscada);
+        buscar_palabra=findViewById(R.id.buscar_palabra);
+        borrar_palabra=findViewById(R.id.borrar_palabra);
         SERVIDOR_CONTROLADOR = new Servidor().local;
         executorService.execute(new Runnable() {
             @Override
@@ -65,6 +73,41 @@ public class Principal extends AppCompatActivity {
                 pedirAutos();
 
 
+            }
+        });
+        buscar_palabra.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                palabra_buscada_str = palabra_buscada.getText().toString().toLowerCase().trim(); // Convertir la palabra a minúsculas para la búsqueda sin distinción entre mayúsculas y minúsculas
+
+                Log.e("palabra_buscada_str", palabra_buscada_str);
+
+                listaAutosFiltrados.clear(); // Limpiar la lista de resultados filtrados
+                buscar_palabra.setVisibility(View.GONE);
+                borrar_palabra.setVisibility(View.VISIBLE);
+                for (ListaAutos auto : listaAutosArrayList) {
+                    // Realizar la búsqueda en los campos relevantes, como nombre, apellido, etc.
+                    if (auto.getMarca().toLowerCase().contains(palabra_buscada_str) ||
+                            auto.getModelo().toLowerCase().contains(palabra_buscada_str) ||
+                            auto.getAno().toLowerCase().contains(palabra_buscada_str)||auto.getKms().toLowerCase().contains(palabra_buscada_str)||auto.getComentarios().toLowerCase().contains(palabra_buscada_str)) {
+                        listaAutosFiltrados.add(auto); // Agregar a la lista de resultados filtrados
+                    }
+                }
+
+                // Actualizar el RecyclerView con los resultados filtrados
+                adadpterListaAutos=new AdadpterListaAutos(listaAutosFiltrados);
+                recycler_autos.setAdapter(adadpterListaAutos);
+
+            }
+        });
+        borrar_palabra.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                buscar_palabra.setVisibility(View.VISIBLE);
+                borrar_palabra.setVisibility(View.GONE);
+                palabra_buscada.setText("");
+                adadpterListaAutos = new AdadpterListaAutos(listaAutosArrayList);
+                recycler_autos.setAdapter(adadpterListaAutos);
             }
         });
     }
@@ -91,21 +134,26 @@ public class Principal extends AppCompatActivity {
                                     String strId = jsonObject.getString("id");
                                     String strMarca= jsonObject.getString("marca");
                                     String strModelo= jsonObject.getString("modelo");
+                                    String strAno= jsonObject.getString("ano");
+                                    String strKms= jsonObject.getString("kms");
+
                                     String strPrecio=jsonObject.getString("precio");
                                     String strLink=jsonObject.getString("link");
                                     String strFoto_1=jsonObject.getString("foto_1");
                                     String strFoto_2=jsonObject.getString("foto_2");
                                     String strFoto_3=jsonObject.getString("foto_3");
+                                    String strComentarios=jsonObject.getString("comentarios");
+
                                     Log.e("strId", strId);
                                     Log.e("strMarca", strMarca);
                                     Log.e("strModelo", strModelo);
                                     Log.e("strPrecio", strPrecio);
-                                    listaAutosArrayList.add( new ListaAutos(strId,strMarca,strModelo,strPrecio,strLink,strFoto_1,strFoto_2,strFoto_3));
+                                    listaAutosArrayList.add( new ListaAutos(strId,strMarca,strModelo,strAno,strKms,strPrecio,strLink,strFoto_1,strFoto_2,strFoto_3,strComentarios));
 
                                 }
                                 adadpterListaAutos=new AdadpterListaAutos(listaAutosArrayList);
                                 recycler_autos.setAdapter(adadpterListaAutos);
-                                vista_actual_str="VISTA_RPINCPILA";
+                                vista_actual_str="vista_principal";
 
                             }
                             catch (JSONException e) {
@@ -128,7 +176,7 @@ public class Principal extends AppCompatActivity {
         };
         requestQueue.add(request);
     }
-    public void masInformacion(String id,String marca,String modelo,String precio,String link,String foto_1,String foto_2,String foto_3){
+    public void masInformacion(String id,String marca,String modelo,String ano,String kms,String precio,String link,String foto_1,String foto_2,String foto_3, String comentarios){
         div_recycler_autos.setVisibility(View.GONE);
         div_infromacion_auto.setVisibility(View.VISIBLE);
         vista_actual_str="informacion_autos";
