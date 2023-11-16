@@ -14,7 +14,9 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -47,6 +49,7 @@ public class Principal extends AppCompatActivity {
     private String vista_actual_str,palabra_buscada_str;
     private ImageView buscar_palabra,borrar_palabra;
     private EditText palabra_buscada;
+    private SeekBar controlador_precio;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,7 +69,29 @@ public class Principal extends AppCompatActivity {
         palabra_buscada=findViewById(R.id.palabra_buscada);
         buscar_palabra=findViewById(R.id.buscar_palabra);
         borrar_palabra=findViewById(R.id.borrar_palabra);
+        controlador_precio=findViewById(R.id.controlador_precio);
         SERVIDOR_CONTROLADOR = new Servidor().local;
+
+        controlador_precio.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                // Este método se llama cuando se cambia el valor de la SeekBar
+                // Puedes realizar acciones aquí según el valor actual (progress)
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                // Este método se llama cuando se inicia el seguimiento del tacto en la SeekBar
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                // Este método se llama cuando se detiene el seguimiento del tacto en la SeekBar
+                int selectedValue = seekBar.getProgress();
+                Toast.makeText(Principal.this, "Valor seleccionado: " + selectedValue, Toast.LENGTH_SHORT).show();
+                filtrarPorPrecio(selectedValue);
+            }
+        });
         executorService.execute(new Runnable() {
             @Override
             public void run() {
@@ -110,6 +135,21 @@ public class Principal extends AppCompatActivity {
                 recycler_autos.setAdapter(adadpterListaAutos);
             }
         });
+    }
+    private void filtrarPorPrecio(int precioSeleccionado) {
+        listaAutosFiltrados.clear(); // Limpiar la lista de resultados filtrados
+        for (ListaAutos auto : listaAutosArrayList) {
+            // Filtrar los autos cuyo precio esté dentro de un rango definido alrededor del valor seleccionado
+            int precioAuto = Integer.parseInt(auto.getPrecio());
+            int rango = 100000; // Puedes ajustar este valor según tus necesidades
+            if (precioAuto >= precioSeleccionado - rango && precioAuto <= precioSeleccionado + rango) {
+                listaAutosFiltrados.add(auto); // Agregar a la lista de resultados filtrados
+            }
+        }
+
+        // Actualizar el RecyclerView con los resultados filtrados
+        adadpterListaAutos = new AdadpterListaAutos(listaAutosFiltrados);
+        recycler_autos.setAdapter(adadpterListaAutos);
     }
     public void pedirAutos()
     {
@@ -180,6 +220,7 @@ public class Principal extends AppCompatActivity {
         div_recycler_autos.setVisibility(View.GONE);
         div_infromacion_auto.setVisibility(View.VISIBLE);
         vista_actual_str="informacion_autos";
+        Log.e("marca",marca+modelo+kms);
     }
 
     @Override

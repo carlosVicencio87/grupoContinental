@@ -67,6 +67,12 @@
                     android:src="@drawable/flecha_abajo"/>
             </LinearLayout>
         </LinearLayout>
+        <SeekBar
+            android:id="@+id/controlador_precio"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:max="1000000" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_autos"
             android:layout_width="match_parent"
