@@ -5,18 +5,21 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.SeekBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,14 +54,19 @@ public class Principal extends AppCompatActivity {
     private RecyclerView recycler_autos;
     private AdadpterListaAutos adadpterListaAutos;
     private ArrayList<ListaAutos> listaAutosArrayList,listaAutosFiltrados;
-    private String vista_actual_str,palabra_buscada_str,foto_1_str,foto_2_str,foto_3_str,numero_foto;
+    private String vista_actual_str,palabra_buscada_str,foto_1_str,foto_2_str,foto_3_str,numero_foto,mensualidad_seleccionada_str,precio_str,pago_inicial_str;
     private ImageView buscar_palabra,borrar_palabra,cerrar_caja_filtros,imagen_auto,btn_imagen_2,btn_imagen_3;
-    private EditText palabra_buscada;
+    private EditText palabra_buscada, pago_inicial_et;
     private SeekBar controlador_precio;
     private RadioGroup grupo_filtros;
-    private TextView filtros_tv,marca_auto_tv,modelo_auto_tv,precio_auto_tv,comentarios_auto_tv;
+    private TextView filtros_tv,marca_auto_tv,modelo_auto_tv,precio_auto_tv,comentarios_auto_tv,lista_pagos_mens_tv,precio_total_tv,mensualidad_calculada;
     private ScrollView div_infromacion_auto;
     String url_server;
+    private Spinner plazo_meses_sp;
+    private AdapterMensualidades adapterMensualidades;
+    public ArrayList<SpinnerModel> listaMensualidades = new ArrayList<>();
+    private int precio_numero;
+    double valor_total,division_mensualidad,pago_inicial_valor,valor_resta;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,6 +100,15 @@ public class Principal extends AppCompatActivity {
         comentarios_auto_tv=findViewById(R.id.comentarios_auto_tv);
         btn_imagen_2=findViewById(R.id.btn_imagen_2);
         btn_imagen_3=findViewById(R.id.btn_imagen_3);
+        plazo_meses_sp=findViewById(R.id.plazo_meses_sp);
+        precio_total_tv=findViewById(R.id.precio_total_tv);
+        mensualidad_calculada=findViewById(R.id.mensualidad_calculada);
+        pago_inicial_et =findViewById(R.id.pago_inicial_et);
+        setListaMensualidades();
+        vista_actual_str="vista_principal";
+
+        adapterMensualidades = new AdapterMensualidades(Principal.this, R.layout.lista_mensualidades, listaMensualidades, getResources());
+        plazo_meses_sp.setAdapter(adapterMensualidades);
         controlador_precio.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -358,6 +375,46 @@ public class Principal extends AppCompatActivity {
                 }
             }
         });
+        plazo_meses_sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                lista_pagos_mens_tv = findViewById(R.id.lista_pagos_mensualidades);
+                if (lista_pagos_mens_tv == null) {
+                    lista_pagos_mens_tv = (TextView) view.findViewById(R.id.lista_pagos_mensualidades);
+                } else {
+                    lista_pagos_mens_tv = (TextView) view.findViewById(R.id.lista_pagos_mensualidades);
+                }
+                pago_inicial_str= pago_inicial_et.getText().toString();
+                if (pago_inicial_str.equals("")||pago_inicial_str.equals(null)){
+                    pago_inicial_valor=0;
+                }else {
+                    pago_inicial_valor=Integer.parseInt(pago_inicial_str);
+
+                }
+                valor_resta=valor_total-pago_inicial_valor;
+                Log.e("valor_total", String.valueOf(valor_resta));
+                mensualidad_seleccionada_str = lista_pagos_mens_tv.getText().toString();
+                Log.e("MENSUALIDAD",mensualidad_seleccionada_str);
+
+                if (mensualidad_seleccionada_str.equals("12 meses")){
+                    division_mensualidad=valor_resta/12;
+                } else if (mensualidad_seleccionada_str.equals("18 meses")){
+                    division_mensualidad=valor_resta/18;
+                } else if (mensualidad_seleccionada_str.equals("24 meses")){
+                    division_mensualidad=valor_resta/24;
+                }
+                else if (mensualidad_seleccionada_str.equals("36 meses")){
+                    division_mensualidad=valor_resta/36;
+                }
+                mensualidad_calculada.setText("$"+division_mensualidad);
+                Log.e("division_mensualidad",String.valueOf(division_mensualidad));
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
     }
     private void filtrarPorPrecio(int precioSeleccionado) {
         listaAutosFiltrados.clear(); // Limpiar la lista de resultados filtrados
@@ -443,6 +500,15 @@ public class Principal extends AppCompatActivity {
         div_recycler_autos.setVisibility(View.GONE);
         div_infromacion_auto.setVisibility(View.VISIBLE);
         vista_actual_str="informacion_autos";
+        precio_str=precio;
+
+        Log.e("precio", String.valueOf(precio));
+         precio_numero = Integer.parseInt(precio_str);
+         valor_total=precio_numero*1.08;
+        Log.e("valor_total", String.valueOf(valor_total));
+        precio_total_tv.setText("Precio total de $"+valor_total);
+
+
         foto_1_str=foto_1;
         foto_2_str=foto_2;
         foto_3_str=foto_3;
@@ -450,7 +516,7 @@ public class Principal extends AppCompatActivity {
         url_server="http://192.168.100.4/grupoContinental/vista/img/autos/";
         Picasso.get().load(url_server+foto_1).into(imagen_auto);
         marca_auto_tv.setText(marca);
-        modelo_auto_tv.setText(modelo);
+        modelo_auto_tv.setText(modelo+" "+ano);
         precio_auto_tv.setText("Precio desde $"+precio);
         comentarios_auto_tv.setText(comentarios);
         Log.e("marca",marca+modelo+kms);
@@ -461,9 +527,25 @@ public class Principal extends AppCompatActivity {
         if (vista_actual_str.equals("informacion_autos")){
             div_recycler_autos.setVisibility(View.VISIBLE);
             div_infromacion_auto.setVisibility(View.GONE);
+        } else if (vista_actual_str.equals("vista_principal")) {
+            Intent intent = new Intent(Principal.this, com.com.grupocontinental.Login.class);
+            startActivity(intent);
         }
 
 
+    }
+    public void setListaMensualidades()
+    {
+        listaMensualidades.clear();
+        String coy[] = {"Selecciona una opcion", "12 meses","18 meses","24 meses","36 meses"};
+        for (int i=0; i<coy.length;i++)
+        {
+            final SpinnerModel sched = new SpinnerModel();
+            sched.ponerNombre(coy[i]);
+            //sched.ponerImagen("spinner"+i);
+            sched.ponerImagen("spi_"+i);
+            listaMensualidades.add(sched);
+        }
     }
 }
 
