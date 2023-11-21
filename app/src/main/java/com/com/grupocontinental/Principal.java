@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -46,7 +47,7 @@ import java.util.concurrent.Executors;
 
 public class Principal extends AppCompatActivity {
 
-    private LinearLayout div_recycler_autos,ver_filtros,caja_filtros;
+    private LinearLayout div_recycler_autos,ver_filtros,caja_filtros,abrir_link;
     private ExecutorService executorService;
     private JSONArray json_datos_autos;
     private Context context;
@@ -54,7 +55,7 @@ public class Principal extends AppCompatActivity {
     private RecyclerView recycler_autos;
     private AdadpterListaAutos adadpterListaAutos;
     private ArrayList<ListaAutos> listaAutosArrayList,listaAutosFiltrados;
-    private String vista_actual_str,palabra_buscada_str,foto_1_str,foto_2_str,foto_3_str,numero_foto,mensualidad_seleccionada_str,precio_str,pago_inicial_str;
+    private String vista_actual_str,palabra_buscada_str,foto_1_str,foto_2_str,foto_3_str,numero_foto,mensualidad_seleccionada_str,precio_str,pago_inicial_str,link_str;
     private ImageView buscar_palabra,borrar_palabra,cerrar_caja_filtros,imagen_auto,btn_imagen_2,btn_imagen_3;
     private EditText palabra_buscada, pago_inicial_et;
     private SeekBar controlador_precio;
@@ -104,11 +105,20 @@ public class Principal extends AppCompatActivity {
         precio_total_tv=findViewById(R.id.precio_total_tv);
         mensualidad_calculada=findViewById(R.id.mensualidad_calculada);
         pago_inicial_et =findViewById(R.id.pago_inicial_et);
+        abrir_link=findViewById(R.id.abrir_link);
         setListaMensualidades();
         vista_actual_str="vista_principal";
 
         adapterMensualidades = new AdapterMensualidades(Principal.this, R.layout.lista_mensualidades, listaMensualidades, getResources());
         plazo_meses_sp.setAdapter(adapterMensualidades);
+        abrir_link.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Crear un intent implícito para abrir el navegador web
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(link_str));
+                startActivity(intent);
+            }
+        });
         controlador_precio.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -501,7 +511,7 @@ public class Principal extends AppCompatActivity {
         div_infromacion_auto.setVisibility(View.VISIBLE);
         vista_actual_str="informacion_autos";
         precio_str=precio;
-
+        link_str=link;
         Log.e("precio", String.valueOf(precio));
          precio_numero = Integer.parseInt(precio_str);
          valor_total=precio_numero*1.08;
