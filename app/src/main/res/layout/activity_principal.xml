@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".Principal">
     <LinearLayout
+        android:visibility="visible"
         android:id="@+id/div_recycler_autos"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -79,13 +80,200 @@
             android:layout_height="match_parent"/>
 
     </LinearLayout>
-    <LinearLayout
+    <ScrollView
+        android:visibility="gone"
         android:id="@+id/div_infromacion_auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@color/white">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="11dp">
 
+                <ImageView
+                    android:id="@+id/imagen_auto"
+                    android:layout_width="match_parent"
+                    android:layout_height="370dp"
+                    app:layout_constraintTop_toTopOf="parent"/>
+                <ImageView
+                    android:id="@+id/btn_imagen_2"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:background="@drawable/flecha_izquierda"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"/>
+                <ImageView
+                    android:id="@+id/btn_imagen_3"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:background="@drawable/flecha_derecha"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <LinearLayout
+                android:layout_marginTop="7dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="70dp"
+                    android:layout_height="90dp"
+                    android:background="@drawable/modelo"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Ver Fotos en 3D"
+                    android:textSize="25dp"
+                    android:textColor="@color/black"/>
+            </LinearLayout>
+            <TextView
+                android:id="@+id/marca_auto_tv"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="25dp"
+                android:textColor="@color/black"/>
+            <TextView
+                android:id="@+id/modelo_auto_tv"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="25dp"
+                android:textColor="@color/black"/>
+            <TextView
+                android:id="@+id/precio_auto_tv"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="25dp"
+                android:textColor="@color/black"/>
+            <TextView
+                android:gravity="left"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Caracteristicas"
+                android:textSize="16dp"
+                android:textColor="@color/black"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="90dp"
+                    android:background="@drawable/asiento"/>
+                <ImageView
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="90dp"
+                    android:background="@drawable/aceite"/>
+                <ImageView
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="90dp"
+                    android:background="@drawable/motor"/>
+                <ImageView
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="90dp"
+                    android:background="@drawable/rueda"/>
+            </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="124dp"
+                android:gravity="start"
+                android:textSize="14dp"
+                android:textColor="@color/black"
+                android:id="@+id/comentarios_auto_tv"/>
+        </LinearLayout>
+    </ScrollView>
+    <LinearLayout
+        android:id="@+id/caja_filtros"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:visibility="gone"
+        android:gravity="center"
+        android:clickable="true"
+        android:background="@color/white">
+
+        <RadioGroup
+            android:id="@+id/grupo_filtros"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="16dp"
+            android:orientation="vertical"
+            >
+            <ImageView
+                android:id="@+id/cerrar_caja_filtros"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_gravity="right"
+                android:layout_marginLeft="7dp"
+                android:layout_marginRight="16dp"
+                android:src="@drawable/tache"/>
+            <RadioButton
+                android:layout_margin="4dp"
+                android:id="@+id/marca_menor"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:text="Marca A-Z"
+                android:textSize="16dp"
+                android:elevation="2.5dp" />
+            <RadioButton
+                android:layout_margin="4dp"
+                android:id="@+id/marca_mayor"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:text="Marca Z-A"
+                android:textSize="16dp"
+                android:elevation="2.5dp"/>
+
+            <RadioButton
+                android:layout_margin="4dp"
+                android:id="@+id/kms_menor"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:text="Kilometraje menor"
+                android:textSize="16dp"
+                android:elevation="2.5dp"/>
+            <RadioButton
+                android:layout_margin="4dp"
+                android:id="@+id/kms_mayor"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:text="Kilometraje mayor"
+                android:textSize="16dp"
+                android:elevation="2.5dp"/>
+            <RadioButton
+                android:layout_margin="4dp"
+                android:id="@+id/precio_menor"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:text="Precio menor"
+                android:textSize="16dp"
+                android:elevation="2.5dp" />
+            <RadioButton
+                android:layout_margin="4dp"
+                android:id="@+id/precio_mayor"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:text="Precio mayor"
+                android:textSize="16dp"
+                android:elevation="2.5dp" />
+        </RadioGroup>
     </LinearLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
