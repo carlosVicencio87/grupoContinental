@@ -42,8 +42,8 @@ public class Login extends AppCompatActivity {
 
     private LinearLayout div_login,div_principal,div_bienvenida;
     private EditText correo,contrasena;
-    private TextView ingresar,mensaje,ir_catalogo,nombre_usuario,iniciar_sesion;
-    private String valCorreo,valContra,correo_final;
+    private TextView ingresar,mensaje,ir_catalogo,nombre_usuario,iniciar_sesion,cerrar_sesion;
+    private String valCorreo,valContra,correo_final,token_cambio;
     private static String SERVIDOR_CONTROLADOR;
     private int check=0;
     private SharedPreferences datosUsuario;
@@ -81,9 +81,25 @@ public class Login extends AppCompatActivity {
         nombre_usuario=findViewById(R.id.nombre_usuario);
         iniciar_sesion=findViewById(R.id.iniciar_sesion);
         div_bienvenida=findViewById(R.id.div_bienvenida);
+        cerrar_sesion=findViewById(R.id.cerrar_sesion);
         context=this;
         checkSesion();
+        cerrar_sesion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                token_cambio="no hay";
+                editor.putString("id_sesion",token_cambio);
+                Log.e("tokencambio!!!",token_cambio);
 
+                editor.clear().apply();
+
+                if(token_cambio.equals("no hay")){
+                    Log.e("nueva sesion",strInicio);
+                    div_bienvenida.setVisibility(View.VISIBLE);
+                    div_principal.setVisibility(View.GONE);
+                }
+            }
+        });
 
         iniciar_sesion.setOnClickListener(new View.OnClickListener() {
             @Override
