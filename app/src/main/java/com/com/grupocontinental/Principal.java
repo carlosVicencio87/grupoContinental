@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
@@ -47,6 +48,9 @@ import java.util.concurrent.Executors;
 
 public class Principal extends AppCompatActivity {
 
+
+
+
     private LinearLayout div_recycler_autos,ver_filtros,caja_filtros,abrir_link;
     private ExecutorService executorService;
     private JSONArray json_datos_autos;
@@ -55,12 +59,12 @@ public class Principal extends AppCompatActivity {
     private RecyclerView recycler_autos;
     private AdadpterListaAutos adadpterListaAutos;
     private ArrayList<ListaAutos> listaAutosArrayList,listaAutosFiltrados;
-    private String vista_actual_str,palabra_buscada_str,foto_1_str,foto_2_str,foto_3_str,numero_foto,mensualidad_seleccionada_str,precio_str,pago_inicial_str,link_str;
+    private String vista_actual_str,palabra_buscada_str,foto_1_str,foto_2_str,foto_3_str,numero_foto,mensualidad_seleccionada_str,precio_str,pago_inicial_str,link_str,nombre_usuario_str,correo_usuario_str,marca_str,modelo_str,ano_str,kms_str,comentario_str;
     private ImageView buscar_palabra,borrar_palabra,cerrar_caja_filtros,imagen_auto,btn_imagen_2,btn_imagen_3;
     private EditText palabra_buscada, pago_inicial_et;
     private SeekBar controlador_precio;
     private RadioGroup grupo_filtros;
-    private TextView filtros_tv,marca_auto_tv,modelo_auto_tv,precio_auto_tv,comentarios_auto_tv,lista_pagos_mens_tv,precio_total_tv,mensualidad_calculada;
+    private TextView filtros_tv,marca_auto_tv,modelo_auto_tv,precio_auto_tv,comentarios_auto_tv,lista_pagos_mens_tv,precio_total_tv,mensualidad_calculada,enviar_informacion;
     private ScrollView div_infromacion_auto;
     String url_server;
     private Spinner plazo_meses_sp;
@@ -68,6 +72,8 @@ public class Principal extends AppCompatActivity {
     public ArrayList<SpinnerModel> listaMensualidades = new ArrayList<>();
     private int precio_numero;
     double valor_total,division_mensualidad,pago_inicial_valor,valor_resta;
+    private SharedPreferences datosUsuario;
+    private SharedPreferences.Editor editor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,9 +114,27 @@ public class Principal extends AppCompatActivity {
         abrir_link=findViewById(R.id.abrir_link);
         setListaMensualidades();
         vista_actual_str="vista_principal";
+        datosUsuario = getSharedPreferences("Usuario",this.MODE_PRIVATE);
+        nombre_usuario_str=datosUsuario.getString("nombre_usuario","no");
+        correo_usuario_str=datosUsuario.getString("correo_usuario","no");
 
         adapterMensualidades = new AdapterMensualidades(Principal.this, R.layout.lista_mensualidades, listaMensualidades, getResources());
         plazo_meses_sp.setAdapter(adapterMensualidades);
+        enviar_informacion=findViewById(R.id.enviar_informacion);
+
+        enviar_informacion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                executorService.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        enviar_informacion_ticket();
+
+
+                    }
+                });
+            }
+        });
         abrir_link.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -416,6 +440,13 @@ public class Principal extends AppCompatActivity {
                 else if (mensualidad_seleccionada_str.equals("36 meses")){
                     division_mensualidad=valor_resta/36;
                 }
+                division_mensualidad = Math.round(division_mensualidad * 100.0) / 100.0;
+
+                precio_numero = Integer.parseInt(precio_str);
+                valor_total=precio_numero*1.08;
+                valor_total = Math.round(valor_total * 100.0) / 100.0;
+                Log.e("valor_total", String.valueOf(valor_total));
+                precio_total_tv.setText("Precio total de $"+valor_total);
                 mensualidad_calculada.setText("$"+division_mensualidad);
                 Log.e("division_mensualidad",String.valueOf(division_mensualidad));
 
@@ -513,10 +544,7 @@ public class Principal extends AppCompatActivity {
         precio_str=precio;
         link_str=link;
         Log.e("precio", String.valueOf(precio));
-         precio_numero = Integer.parseInt(precio_str);
-         valor_total=precio_numero*1.08;
-        Log.e("valor_total", String.valueOf(valor_total));
-        precio_total_tv.setText("Precio total de $"+valor_total);
+
 
 
         foto_1_str=foto_1;
@@ -526,10 +554,15 @@ public class Principal extends AppCompatActivity {
         url_server="http://192.168.100.4/grupoContinental/vista/img/autos/";
         Picasso.get().load(url_server+foto_1).into(imagen_auto);
         marca_auto_tv.setText(marca);
+        marca_str=marca;
         modelo_auto_tv.setText(modelo+" "+ano);
+        modelo_str=modelo;
+        ano_str=ano;
         precio_auto_tv.setText("Precio desde $"+precio);
+
         comentarios_auto_tv.setText(comentarios);
-        Log.e("marca",marca+modelo+kms);
+        comentario_str=comentarios;
+        kms_str=kms;
     }
 
     @Override
@@ -537,6 +570,8 @@ public class Principal extends AppCompatActivity {
         if (vista_actual_str.equals("informacion_autos")){
             div_recycler_autos.setVisibility(View.VISIBLE);
             div_infromacion_auto.setVisibility(View.GONE);
+            vista_actual_str="vista_principal";
+
         } else if (vista_actual_str.equals("vista_principal")) {
             Intent intent = new Intent(Principal.this, com.com.grupocontinental.Login.class);
             startActivity(intent);
@@ -556,6 +591,44 @@ public class Principal extends AppCompatActivity {
             sched.ponerImagen("spi_"+i);
             listaMensualidades.add(sched);
         }
+    }
+    public void enviar_informacion_ticket()
+    {
+        RequestQueue requestQueue= Volley.newRequestQueue(this);
+        StringRequest request = new StringRequest(Request.Method.POST,  SERVIDOR_CONTROLADOR+"crear_ticket.php",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.e("respuesta:",response);
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e( "error", "error: " +error.getMessage());
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String,String> map = new HashMap<>();
+                map.put("nombre_cliente",nombre_usuario_str);
+                map.put("correo_cliente",correo_usuario_str);
+                map.put("marca",marca_str);
+                map.put("modelo",modelo_str);
+                map.put("ano",ano_str);
+                map.put("kilometraje",kms_str);
+                map.put("comentarios",comentario_str);
+                map.put("precio",precio_str);
+                map.put("enganche",pago_inicial_str);
+                map.put("plazo",mensualidad_seleccionada_str   );
+                map.put("comision_apertura","comision_apertura");
+                map.put("cantidad_mensualidad", String.valueOf(division_mensualidad));
+                map.put("precio_total", String.valueOf(valor_total));
+
+                return map;
+            }
+        };
+        requestQueue.add(request);
     }
 }
 
