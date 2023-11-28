@@ -10,10 +10,14 @@ import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -121,6 +125,33 @@ public class Principal extends AppCompatActivity {
         adapterMensualidades = new AdapterMensualidades(Principal.this, R.layout.lista_mensualidades, listaMensualidades, getResources());
         plazo_meses_sp.setAdapter(adapterMensualidades);
         enviar_informacion=findViewById(R.id.enviar_informacion);
+
+        palabra_buscada.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    // Realiza las acciones que desees al presionar "Enter"
+                    // Puedes dejar este bloque vacío si no deseas realizar ninguna acción
+                    return true;
+                }
+                return false;
+            }
+        });
+        palabra_buscada.setFilters(new InputFilter[] {
+                new InputFilter() {
+                    @Override
+                    public CharSequence filter(CharSequence source, int start, int end,
+                                               Spanned dest, int dstart, int dend) {
+                        // Evitar el salto de línea
+                        for (int i = start; i < end; i++) {
+                            if (source.charAt(i) == '\n') {
+                                return "";
+                            }
+                        }
+                        return null;
+                    }
+                }
+        });
 
         enviar_informacion.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -429,24 +460,32 @@ public class Principal extends AppCompatActivity {
                 Log.e("valor_total", String.valueOf(valor_resta));
                 mensualidad_seleccionada_str = lista_pagos_mens_tv.getText().toString();
                 Log.e("MENSUALIDAD",mensualidad_seleccionada_str);
-
-                if (mensualidad_seleccionada_str.equals("12 meses")){
-                    division_mensualidad=valor_resta/12;
-                } else if (mensualidad_seleccionada_str.equals("18 meses")){
-                    division_mensualidad=valor_resta/18;
-                } else if (mensualidad_seleccionada_str.equals("24 meses")){
-                    division_mensualidad=valor_resta/24;
-                }
-                else if (mensualidad_seleccionada_str.equals("36 meses")){
-                    division_mensualidad=valor_resta/36;
-                }
-                division_mensualidad = Math.round(division_mensualidad * 100.0) / 100.0;
-
                 precio_numero = Integer.parseInt(precio_str);
                 valor_total=precio_numero*1.08;
                 valor_total = Math.round(valor_total * 100.0) / 100.0;
+
+                if (mensualidad_seleccionada_str.equals("12 meses")){
+                    division_mensualidad=valor_resta/12;
+                    precio_total_tv.setText("Precio total de $"+valor_total);
+
+                } else if (mensualidad_seleccionada_str.equals("18 meses")){
+                    division_mensualidad=valor_resta/18;
+                    precio_total_tv.setText("Precio total de $"+valor_total);
+
+                } else if (mensualidad_seleccionada_str.equals("24 meses")){
+                    division_mensualidad=valor_resta/24;
+                    precio_total_tv.setText("Precio total de $"+valor_total);
+
+                }
+                else if (mensualidad_seleccionada_str.equals("36 meses")){
+                    division_mensualidad=valor_resta/36;
+                    precio_total_tv.setText("Precio total de $"+valor_total);
+
+                }
+                division_mensualidad = Math.round(division_mensualidad * 100.0) / 100.0;
+
+
                 Log.e("valor_total", String.valueOf(valor_total));
-                precio_total_tv.setText("Precio total de $"+valor_total);
                 mensualidad_calculada.setText("$"+division_mensualidad);
                 Log.e("division_mensualidad",String.valueOf(division_mensualidad));
 
