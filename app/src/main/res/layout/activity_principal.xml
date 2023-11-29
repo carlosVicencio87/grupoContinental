@@ -374,5 +374,61 @@
 
         </RadioGroup>
     </LinearLayout>
+    <LinearLayout
+        android:id="@+id/caja_mensaje_cotizacion"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:visibility="gone"
+        android:gravity="center"
+        android:clickable="true"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:padding="11dp">
+        <TextView
+            android:id="@+id/mensaje_cotizacion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16dp"
+            android:gravity="center"
+            android:text="Quieres enviar una cotizacion de este auto?"/>
+        <LinearLayout
+            android:id="@+id/div_opciones_envio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_marginTop="14dp">
+            <TextView
+                android:id="@+id/cancelar_cotizacion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16dp"
+                android:gravity="center"
+                android:text="Cancelar"
+                android:layout_marginLeft="14dp"
+                android:layout_marginRight="14dp"/>
+            <TextView
+                android:id="@+id/enviar_cotizacion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16dp"
+                android:gravity="center"
+                android:text="Enviar"
+                android:layout_marginLeft="14dp"
+                android:layout_marginRight="14dp"/>
+        </LinearLayout>
+        <TextView
+            android:id="@+id/aceptar_envio"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16dp"
+            android:gravity="center"
+            android:text="Aceptar"/>
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

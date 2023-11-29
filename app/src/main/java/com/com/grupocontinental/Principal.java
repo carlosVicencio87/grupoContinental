@@ -55,7 +55,7 @@ public class Principal extends AppCompatActivity {
 
 
 
-    private LinearLayout div_recycler_autos,ver_filtros,caja_filtros,abrir_link;
+    private LinearLayout div_recycler_autos,ver_filtros,caja_filtros,abrir_link,caja_mensaje_cotizacion,div_opciones_envio;
     private ExecutorService executorService;
     private JSONArray json_datos_autos;
     private Context context;
@@ -68,7 +68,7 @@ public class Principal extends AppCompatActivity {
     private EditText palabra_buscada, pago_inicial_et;
     private SeekBar controlador_precio;
     private RadioGroup grupo_filtros;
-    private TextView filtros_tv,marca_auto_tv,modelo_auto_tv,precio_auto_tv,comentarios_auto_tv,lista_pagos_mens_tv,precio_total_tv,mensualidad_calculada,enviar_informacion;
+    private TextView filtros_tv,marca_auto_tv,modelo_auto_tv,precio_auto_tv,comentarios_auto_tv,lista_pagos_mens_tv,precio_total_tv,mensualidad_calculada,enviar_informacion,cancelar_cotizacion,enviar_cotizacion,mensaje_cotizacion,aceptar_envio;
     private ScrollView div_infromacion_auto;
     String url_server;
     private Spinner plazo_meses_sp;
@@ -121,10 +121,15 @@ public class Principal extends AppCompatActivity {
         datosUsuario = getSharedPreferences("Usuario",this.MODE_PRIVATE);
         nombre_usuario_str=datosUsuario.getString("nombre_usuario","no");
         correo_usuario_str=datosUsuario.getString("correo_usuario","no");
-
+        caja_mensaje_cotizacion=findViewById(R.id.caja_mensaje_cotizacion);
+        cancelar_cotizacion=findViewById(R.id.cancelar_cotizacion);
+        enviar_cotizacion=findViewById(R.id.enviar_cotizacion);
         adapterMensualidades = new AdapterMensualidades(Principal.this, R.layout.lista_mensualidades, listaMensualidades, getResources());
         plazo_meses_sp.setAdapter(adapterMensualidades);
         enviar_informacion=findViewById(R.id.enviar_informacion);
+        div_opciones_envio=findViewById(R.id.div_opciones_envio);
+        mensaje_cotizacion=findViewById(R.id.mensaje_cotizacion);
+        aceptar_envio=findViewById(R.id.aceptar_envio);
 
         palabra_buscada.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -153,15 +158,40 @@ public class Principal extends AppCompatActivity {
                 }
         });
 
+        aceptar_envio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                caja_mensaje_cotizacion.setVisibility(View.GONE);
+                div_infromacion_auto.setVisibility(View.VISIBLE);
+                div_opciones_envio.setVisibility(View.VISIBLE);
+                aceptar_envio.setVisibility(View.GONE);
+
+            }
+        });
+        cancelar_cotizacion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                caja_mensaje_cotizacion.setVisibility(View.GONE);
+                div_infromacion_auto.setVisibility(View.VISIBLE);
+            }
+        });
         enviar_informacion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                caja_mensaje_cotizacion.setVisibility(View.VISIBLE);
+                div_infromacion_auto.setVisibility(View.GONE);
+
+            }
+        });
+        enviar_cotizacion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                div_opciones_envio.setVisibility(View.GONE);
+                mensaje_cotizacion.setText("Enviando cotizacion....");
                 executorService.execute(new Runnable() {
                     @Override
                     public void run() {
                         enviar_informacion_ticket();
-
-
                     }
                 });
             }
@@ -639,6 +669,10 @@ public class Principal extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         Log.e("respuesta:",response);
+                        if(response.contains("success")){
+                            mensaje_cotizacion.setText("La cotizacion  fue enviada con exito puedes revisar tu correo");
+                            aceptar_envio.setVisibility(View.VISIBLE);
+                        }
 
                     }
                 }, new Response.ErrorListener() {
