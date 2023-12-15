@@ -323,11 +323,22 @@ public class Principal extends AppCompatActivity {
                             @Override
                             public int compare(ListaAutos o1, ListaAutos o2) {
                                 // Parsea los valores de cobros a Double y compara
-                                String fecha1 = o1.getKms();
-                                String fecha2 = o2.getKms();
-                                Log.e("fecha1", fecha1);
-                                Log.e("fecha1", fecha2);
-                                return fecha1.compareTo(fecha2); // Ordena alfabéticamente de A a Z
+                                String deuda_actual1 = o1.getKms();
+                                String deuda_actual2 = o2.getKms();
+
+                                // Reemplazar valores vacíos con "0"
+                                if (deuda_actual1.isEmpty()) {
+                                    deuda_actual1 = "0";
+                                }
+                                if (deuda_actual2.isEmpty()) {
+                                    deuda_actual2 = "0";
+                                }
+
+                                double deuda1 = Double.parseDouble(deuda_actual1);
+                                double deuda2 = Double.parseDouble(deuda_actual2);
+                                Log.e("deuda1", String.valueOf(deuda1));
+                                Log.e("deuda2", String.valueOf(deuda2));
+                                return Double.compare(deuda1, deuda2);
 
                             }
                         });
@@ -344,11 +355,22 @@ public class Principal extends AppCompatActivity {
                             @Override
                             public int compare(ListaAutos o1, ListaAutos o2) {
                                 // Parsea los valores de cobros a Double y compara
-                                String fecha1 = o1.getKms();
-                                String fecha2 = o2.getKms();
-                                Log.e("fecha1", fecha1);
-                                Log.e("fecha2", fecha2);
-                                return fecha2.compareTo(fecha1);
+                                String deuda_actual1 = o1.getKms();
+                                String deuda_actual2 = o2.getKms();
+
+                                // Reemplazar valores vacíos con "0"
+                                if (deuda_actual1.isEmpty()) {
+                                    deuda_actual1 = "0";
+                                }
+                                if (deuda_actual2.isEmpty()) {
+                                    deuda_actual2 = "0";
+                                }
+
+                                double deuda1 = Double.parseDouble(deuda_actual1);
+                                double deuda2 = Double.parseDouble(deuda_actual2);
+                                Log.e("deuda1", String.valueOf(deuda1));
+                                Log.e("deuda2", String.valueOf(deuda2));
+                                return Double.compare(deuda2, deuda1);
                             }
                         });
                         adadpterListaAutos = new AdadpterListaAutos(listaAutosArrayList);
