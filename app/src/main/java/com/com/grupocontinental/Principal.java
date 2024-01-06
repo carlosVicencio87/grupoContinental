@@ -63,7 +63,7 @@ public class Principal extends AppCompatActivity {
     private RecyclerView recycler_autos;
     private AdadpterListaAutos adadpterListaAutos;
     private ArrayList<ListaAutos> listaAutosArrayList,listaAutosFiltrados;
-    private String vista_actual_str,palabra_buscada_str,foto_1_str,foto_2_str,foto_3_str,numero_foto,mensualidad_seleccionada_str,precio_str,pago_inicial_str,link_str,nombre_usuario_str,correo_usuario_str,marca_str,modelo_str,ano_str,kms_str,comentario_str;
+    private String vista_actual_str,palabra_buscada_str,foto_1_str,foto_2_str,foto_3_str,numero_foto,mensualidad_seleccionada_str,precio_str,pago_inicial_str,link_str,nombre_usuario_str,correo_usuario_str,marca_str,modelo_str,ano_str,kms_str,comentario_str,url_foto_envio;
     private ImageView buscar_palabra,borrar_palabra,cerrar_caja_filtros,imagen_auto,btn_imagen_2,btn_imagen_3;
     private EditText palabra_buscada, pago_inicial_et;
     private SeekBar controlador_precio;
@@ -178,8 +178,18 @@ public class Principal extends AppCompatActivity {
         enviar_informacion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                caja_mensaje_cotizacion.setVisibility(View.VISIBLE);
-                div_infromacion_auto.setVisibility(View.GONE);
+
+                if(!pago_inicial_et.getText().toString().equals("")){
+                    if(!mensualidad_seleccionada_str.equals("Selecciona una opcion")){
+                        caja_mensaje_cotizacion.setVisibility(View.VISIBLE);
+                        div_infromacion_auto.setVisibility(View.GONE);
+                    }else{
+                        Toast.makeText(getApplicationContext(),"Seleccione un plazo de tiempo",Toast.LENGTH_LONG).show();
+                    }
+                }else{
+                    Toast.makeText(getApplicationContext(),"Se necesita una pago inicial",Toast.LENGTH_LONG).show();
+                }
+
 
             }
         });
@@ -188,6 +198,7 @@ public class Principal extends AppCompatActivity {
             public void onClick(View v) {
                 div_opciones_envio.setVisibility(View.GONE);
                 mensaje_cotizacion.setText("Enviando cotizacion....");
+
                 executorService.execute(new Runnable() {
                     @Override
                     public void run() {
@@ -644,6 +655,7 @@ public class Principal extends AppCompatActivity {
         numero_foto="posicion_1";
         url_server="http://192.168.100.4/grupoContinental/vista/img/autos/";
         Picasso.get().load(url_server+foto_1).into(imagen_auto);
+        url_foto_envio=foto_1;
         marca_auto_tv.setText(marca);
         marca_str=marca;
         modelo_auto_tv.setText(modelo+" "+ano);
@@ -686,7 +698,7 @@ public class Principal extends AppCompatActivity {
     public void enviar_informacion_ticket()
     {
         RequestQueue requestQueue= Volley.newRequestQueue(this);
-        StringRequest request = new StringRequest(Request.Method.POST,  SERVIDOR_CONTROLADOR+"crear_ticket.php",
+        StringRequest request = new StringRequest(Request.Method.POST,  SERVIDOR_CONTROLADOR+"crear_ticket_prueba.php",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -719,6 +731,9 @@ public class Principal extends AppCompatActivity {
                 map.put("comision_apertura","comision_apertura");
                 map.put("cantidad_mensualidad", String.valueOf(division_mensualidad));
                 map.put("precio_total", String.valueOf(valor_total));
+                map.put("link_auto", link_str);
+                map.put("url_foto", url_foto_envio);
+
 
                 return map;
             }
